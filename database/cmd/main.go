@@ -1,7 +1,9 @@
 package cmd
 
+import "main/database"
+
 func main() {
-	ConnectToDatabase()
-	MigrateDatabase()
-	SetupRoutes()
+	database.ConnectToDatabase()
+	// MigrateDatabase()
+	// SetupRoutes()
 }
