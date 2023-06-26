@@ -1,8 +1,11 @@
 package routes
 
 import (
+	"fmt"
 	"main/handlers"
 	"net/http"
+
+	"github.com/sudo-adduser-jordan/Toolchain/Go/styles"
 )
 
 func SetupRoutes() {
@@ -20,5 +23,8 @@ func SetupRoutes() {
 		// ErrorLog:  nil,
 		// TLSConfig: nil,
 	}
+
+	fmt.Print("\n(∩｀-´)⊃━ ☆ﾟ . * ･ ｡ﾟ => http server started on ")
+	fmt.Println(styles.GreenText(server.Addr))
 	server.ListenAndServe()
 }

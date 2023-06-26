@@ -8,9 +8,17 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/sudo-adduser-jordan/Toolchain/Go/styles"
 )
 
-var conn *pgx.Conn
+var connection *pgx.Conn
+
+type User struct {
+	// int32
+	UserID   int
+	Username string
+	Password string
+}
 
 func ConnectToDatabase() {
 
@@ -25,7 +33,7 @@ func ConnectToDatabase() {
 	)
 
 	var err error
-	conn, err = pgx.Connect(context.Background(), DATABASE_URL)
+	connection, err = pgx.Connect(context.Background(), DATABASE_URL)
 	if err != nil {
 		fmt.Fprintf(
 			os.Stderr,
@@ -34,10 +42,12 @@ func ConnectToDatabase() {
 		)
 		os.Exit(1)
 	}
+	fmt.Print("	-----> ")
+	fmt.Println(styles.GreenText("Connected to database."))
 }
 
 func MigrateDatabase() {
-	_, err := conn.Exec(context.Background(),
+	_, err := connection.Exec(context.Background(),
 		CREATE_USER_TABLE,
 	)
 
@@ -50,10 +60,13 @@ func MigrateDatabase() {
 	// Update("user2", "admin", "user1")
 	// Read("user2")
 	// Delete("user2")
+
+	fmt.Print("	-----> ")
+	fmt.Println(styles.BlueText("Database migrated."))
 }
 
 func Create(username string, password string) {
-	_, err := conn.Exec(context.Background(),
+	_, err := connection.Exec(context.Background(),
 		INSERT_USER,
 		username,
 		password,
@@ -65,7 +78,7 @@ func Create(username string, password string) {
 }
 
 func Read(username string) {
-	row, err := conn.Query(context.Background(),
+	row, err := connection.Query(context.Background(),
 		SELECT_USER,
 		username,
 	)
@@ -74,16 +87,13 @@ func Read(username string) {
 	}
 
 	for row.Next() {
-		var id int32
-		var result string
-		var password string
-		err = row.Scan(&id, &result, &password)
+		user := &User{}
+		err = row.Scan(&user)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("%s\n", result)
+		fmt.Printf("%s\n", user.Username)
 	}
-
 }
 
 func Update(
@@ -91,7 +101,7 @@ func Update(
 	new_username string,
 	new_password string,
 ) {
-	_, err := conn.Exec(context.Background(),
+	_, err := connection.Exec(context.Background(),
 		UPDATE_USER,
 		username,
 		new_username,
@@ -104,7 +114,7 @@ func Update(
 }
 
 func Delete(username string) {
-	_, err := conn.Exec(context.Background(),
+	_, err := connection.Exec(context.Background(),
 		DELETE_USER,
 		username,
 	)
@@ -112,4 +122,63 @@ func Delete(username string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// ===================================== //
+
+func CreateUser(username string, password string) bool {
+	_, err := connection.Exec(context.Background(),
+		INSERT_USER,
+		username,
+		password,
+	)
+
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	return true
+}
+
+func ReadUser(username string) bool {
+	row, err := connection.Query(context.Background(),
+		SELECT_USER,
+		username,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for row.Next() {
+		user := &User{}
+		err = row.Scan(&user)
+		if err != nil {
+			log.Fatal(err)
+		}
+		if user.Username != "" {
+			return true
+		}
+	}
+	return false
+}
+
+func ReadPassword(username string) string {
+	row, err := connection.Query(context.Background(),
+		SELECT_USER,
+		username,
+	)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for row.Next() {
+		user := &User{}
+		err = row.Scan(&user)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return user.Password
+	}
+	return "Read password error."
 }
