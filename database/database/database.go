@@ -29,7 +29,7 @@ func ConnectToDatabase() {
 	if err != nil {
 		fmt.Fprintf(
 			os.Stderr,
-			"Unable to create connection pool: %v\n",
+			"Unable to connection to database: %v\n",
 			err,
 		)
 		os.Exit(1)
