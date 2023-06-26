@@ -21,7 +21,11 @@ var INSERT_USER = `
 `
 
 var SELECT_USER = `
-	SELECT $1 FROM Users;
+	SELECT * 
+	FROM users
+	WHERE username = $1
+	ORDER BY username ASC
+	LIMIT 1
 `
 
 var UPDATE_USER = `

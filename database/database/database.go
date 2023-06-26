@@ -44,8 +44,11 @@ func MigrateDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	// Create("user1", "pass")
+	// Read("user1")
 	// Update("user2", "admin", "user1")
+	// Read("user2")
 	// Delete("user2")
 }
 
@@ -59,19 +62,28 @@ func Create(username string, password string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
 
-func Read(username string) string {
-	_, err := conn.Exec(context.Background(),
+func Read(username string) {
+	row, err := conn.Query(context.Background(),
 		SELECT_USER,
 		username,
 	)
-
 	if err != nil {
 		log.Fatal(err)
 	}
-	return ""
+
+	for row.Next() {
+		var id int32
+		var result string
+		var password string
+		err = row.Scan(&id, &result, &password)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%s\n", result)
+	}
+
 }
 
 func Update(
