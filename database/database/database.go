@@ -44,6 +44,8 @@ func MigrateDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// Update("user2", "admin", "user1")
+	// Delete("user2")
 }
 
 func Create(username string, password string) {
@@ -59,7 +61,7 @@ func Create(username string, password string) {
 
 }
 
-func Read(username string) {
+func Read(username string) string {
 	_, err := conn.Exec(context.Background(),
 		SELECT_USER,
 		username,
@@ -68,6 +70,7 @@ func Read(username string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	return ""
 }
 
 func Update(
