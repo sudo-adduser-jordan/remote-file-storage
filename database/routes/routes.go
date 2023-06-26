@@ -10,6 +10,7 @@ func SetupRoutes() {
 	mux := http.NewServeMux()
 	mux.Handle("/", http.FileServer(http.Dir("./static")))
 	mux.HandleFunc("/login", handlers.Login)
+	mux.HandleFunc("/registir", handlers.Register)
 	mux.HandleFunc("/upload", handlers.Upload)
 	mux.HandleFunc("/download", handlers.Download)
 
