@@ -3,13 +3,14 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
 	"main/configs"
 	"os"
 
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v5"
 )
 
-var dbpool *pgxpool.Pool
+var conn *pgx.Conn
 
 func ConnectToDatabase() {
 
@@ -23,7 +24,8 @@ func ConnectToDatabase() {
 		configs.Env("DB_NAME"),
 	)
 
-	dbpool, err := pgxpool.New(context.Background(), DATABASE_URL)
+	var err error
+	conn, err = pgx.Connect(context.Background(), DATABASE_URL)
 	if err != nil {
 		fmt.Fprintf(
 			os.Stderr,
@@ -32,18 +34,43 @@ func ConnectToDatabase() {
 		)
 		os.Exit(1)
 	}
-	defer dbpool.Close()
-
 }
 
 func MigrateDatabase() {
+	_, err := conn.Exec(context.Background(),
+		CREATE_USER_TABLE,
+	)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func Create(username string, password string) {
+	_, err := conn.Exec(context.Background(),
+		INSERT_USER,
+		username,
+		password,
+	)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
-func Create() {}
+func Read(username string) {
 
-func Read() {}
+}
 
-func Update() {}
+func Update(
+	username string,
+	new_username string,
+	new_password string,
+) {
 
-func Delete() {}
+}
+
+func Delete(username string) {
+
+}

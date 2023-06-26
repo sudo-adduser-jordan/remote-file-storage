@@ -6,7 +6,7 @@ DROP TABLE Users;
 
 ---------------------------------------
 
-CREATE TABLE Users (
+CREATE TABLE IF NOT EXISTS Users (
     UserID SERIAL PRIMARY KEY,
     Username TEXT NOT NULL UNIQUE,
     Password TEXT NOT NULL UNIQUE,
@@ -22,8 +22,8 @@ SELECT ? FROM Users
 
 ---------------------------------------
 
-INSERT INTO Users (UserID, Username, Password)
-VALUES (?, ?, ?); 
+INSERT INTO Users (Username, Password)
+VALUES (?, ?); 
 
 ---------------------------------------
 
@@ -33,7 +33,8 @@ WHERE Username = ?;
 
 ---------------------------------------
 
-DELETE FROM Users WHERE Username = ?;
+DELETE FROM Users 
+WHERE Username = ?;
 
 ---------------------------------------
 
