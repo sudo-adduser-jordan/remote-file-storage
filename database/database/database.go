@@ -60,7 +60,14 @@ func Create(username string, password string) {
 }
 
 func Read(username string) {
+	_, err := conn.Exec(context.Background(),
+		SELECT_USER,
+		username,
+	)
 
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func Update(
@@ -68,9 +75,25 @@ func Update(
 	new_username string,
 	new_password string,
 ) {
+	_, err := conn.Exec(context.Background(),
+		UPDATE_USER,
+		username,
+		new_username,
+		new_password,
+	)
 
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func Delete(username string) {
+	_, err := conn.Exec(context.Background(),
+		DELETE_USER,
+		username,
+	)
 
+	if err != nil {
+		log.Fatal(err)
+	}
 }
