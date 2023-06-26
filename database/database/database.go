@@ -44,6 +44,7 @@ func MigrateDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// Create("user1", "pass")
 	// Update("user2", "admin", "user1")
 	// Delete("user2")
 }
