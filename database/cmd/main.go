@@ -1,10 +1,12 @@
 package main
 
-import "main/database"
+import (
+	"main/database"
+	"main/routes"
+)
 
 func main() {
 	database.ConnectToDatabase()
 	database.MigrateDatabase()
-	// SetupRoutes()
-
+	routes.SetupRoutes()
 }
