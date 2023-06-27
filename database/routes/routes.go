@@ -12,19 +12,25 @@ import (
 func SetupRoutes() {
 
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.Dir("./static")))
-	mux.HandleFunc("/login", handlers.Login)
 	mux.HandleFunc("/register", middleware.Logger(handlers.Register))
-	mux.HandleFunc("/delete", handlers.Delete)
-	mux.HandleFunc("/upload", handlers.Upload)
-	mux.HandleFunc("/download", handlers.Download)
+
+	mux.HandleFunc("/login", middleware.Logger((middleware.BasicAuth(handlers.Login))))
+	mux.HandleFunc("/update", middleware.Logger((middleware.BasicAuth(handlers.Update))))
+	mux.HandleFunc("/delete", middleware.Logger((middleware.BasicAuth(handlers.Delete))))
+	mux.HandleFunc("/upload", middleware.Logger((middleware.BasicAuth(handlers.Upload))))
+	mux.HandleFunc("/download", middleware.Logger((middleware.BasicAuth(handlers.Update))))
 
 	server := &http.Server{
 		Addr:    ":8080",
 		Handler: mux,
+		// IdleTimeout:  time.Minute,
+		// ReadTimeout:  10 * time.Second,
+		// WriteTimeout: 30 * time.Second,
 	}
 
 	fmt.Print("\n(∩｀-´)⊃━ ☆ﾟ . * ･ ｡ﾟ => http server started on ")
 	fmt.Println(styles.GreenText(server.Addr))
+	fmt.Println()
+
 	server.ListenAndServe()
 }

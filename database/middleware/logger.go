@@ -45,18 +45,23 @@ func statusColor(status int) lipgloss.Style {
 	s := strconv.Itoa(status)
 	s = fmt.Sprintf(" " + s + " ")
 
-	switch status {
-	case 200:
-		return styles.GreenText(s)
-	case 300:
+	if 100 <= status && status <= 199 {
 		return styles.YellowText(s)
-	case 400:
-		return styles.BlueText(s)
-	case 500:
-		return styles.RedText(s)
-	default:
+	}
+	if 200 <= status && status <= 299 {
+		return styles.GreenText(s)
+	}
+	if 300 <= status && status <= 399 {
+		return styles.YellowText(s)
+	}
+	if 400 <= status && status <= 499 {
 		return styles.RedText(s)
 	}
+	if 500 <= status && status <= 599 {
+		return styles.RedText(s)
+	}
+
+	return styles.RedText(s)
 }
 
 func methodColor(method string) lipgloss.Style {

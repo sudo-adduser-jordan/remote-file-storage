@@ -43,17 +43,9 @@ func MigrateDatabase() {
 	_, err := connection.Exec(context.Background(),
 		CREATE_USER_TABLE,
 	)
-
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// Create("user1", "pass")
-	// Read("user1")
-	// Update("user2", "admin", "user1")
-	// Read("user2")
-	// Delete("user2")
-
 	fmt.Print("	-----> ")
 	fmt.Println(styles.BlueText("Database migrated."))
 }
@@ -91,11 +83,7 @@ func Read(username string) {
 	}
 }
 
-func Update(
-	username string,
-	new_username string,
-	new_password string,
-) {
+func Update(username string, new_username string, new_password string) {
 	_, err := connection.Exec(context.Background(),
 		UPDATE_USER,
 		username,
@@ -109,81 +97,6 @@ func Update(
 }
 
 func Delete(username string) {
-	_, err := connection.Exec(context.Background(),
-		DELETE_USER,
-		username,
-	)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-// ===================================== //
-
-func CreateUser(username string, password string) bool {
-	_, err := connection.Exec(context.Background(),
-		INSERT_USER,
-		username,
-		password,
-	)
-
-	if err != nil {
-		log.Fatal(err)
-		return false
-	}
-	return true
-}
-
-func ReadUser(username string) bool {
-	row, err := connection.Query(context.Background(),
-		SELECT_USER,
-		username,
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for row.Next() {
-		var id int32
-		var result string
-		var password string
-		err = row.Scan(&id, &result, &password)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("%s\n", result)
-		if result != "" {
-			return true
-		}
-	}
-	return false
-}
-
-func ReadPassword(username string) string {
-	row, err := connection.Query(context.Background(),
-		SELECT_USER,
-		username,
-	)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for row.Next() {
-		var id int32
-		var result string
-		var password string
-		err = row.Scan(&id, &result, &password)
-		if err != nil {
-			log.Fatal(err)
-		}
-		return password
-	}
-	return "Read password error."
-}
-
-func DeleteUser(username string) {
 	_, err := connection.Exec(context.Background(),
 		DELETE_USER,
 		username,

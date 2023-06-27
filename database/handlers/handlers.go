@@ -13,23 +13,6 @@ type User struct {
 	Password string
 }
 
-// Login
-func Login(w http.ResponseWriter, r *http.Request) {
-	user := &User{
-		Username: r.FormValue("username"),
-		Password: r.FormValue("password"),
-	}
-
-	password := database.ReadPassword(user.Username)
-
-	if utils.CheckPasswordHash(user.Username, password) {
-		w.WriteHeader(http.StatusOK)
-	} else {
-		w.WriteHeader(http.StatusBadRequest)
-	}
-
-}
-
 // Create Account
 func Register(w http.ResponseWriter, r *http.Request) {
 	user := &User{
@@ -41,14 +24,56 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Hash password error")
 	}
 
-	if database.ReadUser(user.Username) {
-		fmt.Println("User exists.")
+	if database.ReadUser(user.Username) == user.Username {
 		w.WriteHeader(http.StatusConflict)
+		fmt.Fprint(w, "User exists: "+user.Username)
+
+	} else {
+		if database.CreateUser(user.Username, hashed_password) {
+			w.WriteHeader(http.StatusOK)
+			fmt.Fprint(w, "User created: "+user.Username)
+		}
+	}
+}
+
+// Read Account - will assign cookie
+func Login(w http.ResponseWriter, r *http.Request) {
+	user := &User{
+		Username: r.FormValue("username"),
+		Password: r.FormValue("password"),
+	}
+	hash := database.ReadPassword(user.Username)
+
+	if utils.CheckPasswordHash(user.Password, hash) {
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, "User logged in: "+user.Username)
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+}
+
+// Update Account
+func Update(w http.ResponseWriter, r *http.Request) {
+	user := &User{
+		Username: r.FormValue("username"),
+		Password: r.FormValue("password"),
+	}
+	new_user := &User{
+		Username: r.FormValue("new_username"),
+		Password: r.FormValue("new_passwrod"),
+	}
+	hashed_password, err := utils.HashPassword(new_user.Password)
+	if err != nil {
+		log.Fatal("Hash password error")
 	}
 
-	if database.CreateUser(user.Username, hashed_password) {
+	hash := database.ReadPassword(user.Username)
+	if utils.CheckPasswordHash(user.Password, hash) {
+		database.UpdateUser(user.Username, new_user.Username, hashed_password)
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, "User created: "+user.Username)
+		fmt.Fprint(w, "User Updated: "+user.Username)
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
 	}
 }
 
