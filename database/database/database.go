@@ -7,18 +7,11 @@ import (
 	"main/configs"
 	"os"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/sudo-adduser-jordan/Toolchain/Go/styles"
 )
 
-var connection *pgx.Conn
-
-type User struct {
-	// int32
-	UserID   int
-	Username string
-	Password string
-}
+var connection *pgxpool.Pool
 
 func ConnectToDatabase() {
 
@@ -33,7 +26,7 @@ func ConnectToDatabase() {
 	)
 
 	var err error
-	connection, err = pgx.Connect(context.Background(), DATABASE_URL)
+	connection, err = pgxpool.New(context.Background(), DATABASE_URL)
 	if err != nil {
 		fmt.Fprintf(
 			os.Stderr,
@@ -87,12 +80,14 @@ func Read(username string) {
 	}
 
 	for row.Next() {
-		user := &User{}
-		err = row.Scan(&user)
+		var id int32
+		var result string
+		var password string
+		err = row.Scan(&id, &result, &password)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("%s\n", user.Username)
+		fmt.Printf("%s\n", result)
 	}
 }
 
@@ -150,12 +145,15 @@ func ReadUser(username string) bool {
 	}
 
 	for row.Next() {
-		user := &User{}
-		err = row.Scan(&user)
+		var id int32
+		var result string
+		var password string
+		err = row.Scan(&id, &result, &password)
 		if err != nil {
 			log.Fatal(err)
 		}
-		if user.Username != "" {
+		fmt.Printf("%s\n", result)
+		if result != "" {
 			return true
 		}
 	}
@@ -173,12 +171,25 @@ func ReadPassword(username string) string {
 	}
 
 	for row.Next() {
-		user := &User{}
-		err = row.Scan(&user)
+		var id int32
+		var result string
+		var password string
+		err = row.Scan(&id, &result, &password)
 		if err != nil {
 			log.Fatal(err)
 		}
-		return user.Password
+		return password
 	}
 	return "Read password error."
+}
+
+func DeleteUser(username string) {
+	_, err := connection.Exec(context.Background(),
+		DELETE_USER,
+		username,
+	)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }

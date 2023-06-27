@@ -47,8 +47,24 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if database.CreateUser(user.Username, hashed_password) {
-		fmt.Println("User created: " + user.Username)
 		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, "User created: "+user.Username)
+	}
+}
+
+// Delete Account
+func Delete(w http.ResponseWriter, r *http.Request) {
+	user := &User{
+		Username: r.FormValue("username"),
+		Password: r.FormValue("password"),
+	}
+	password := database.ReadPassword(user.Username)
+
+	if utils.CheckPasswordHash(user.Password, password) {
+		database.DeleteUser(user.Username)
+		w.WriteHeader(http.StatusOK)
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
 	}
 }
 
