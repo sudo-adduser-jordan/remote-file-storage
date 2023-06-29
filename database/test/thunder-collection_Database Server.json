@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Database Server",
-    "dateExported": "2023-06-28T05:40:51.916Z",
+    "dateExported": "2023-06-29T13:09:43.219Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -78,35 +78,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2023-06-27T03:35:58.706Z",
-            "modified": "2023-06-27T03:35:58.706Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "formdata",
-                "raw": "",
-                "form": [
-                    {
-                        "name": "username",
-                        "value": "user2"
-                    },
-                    {
-                        "name": "password",
-                        "value": "pass"
-                    }
-                ]
-            },
-            "tests": []
-        },
-        {
-            "_id": "003e51f2-efea-4cad-8cf5-6f426fda9b6a",
-            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
-            "containerId": "",
-            "name": "Upload Files",
-            "url": "https://localhost:3000/upload",
-            "method": "POST",
-            "sortNum": 40000,
-            "created": "2023-06-28T05:38:06.146Z",
-            "modified": "2023-06-28T05:38:06.146Z",
+            "modified": "2023-06-28T09:53:15.935Z",
             "headers": [],
             "params": [],
             "body": {
@@ -120,16 +92,6 @@
                     {
                         "name": "password",
                         "value": "pass"
-                    }
-                ],
-                "files": [
-                    {
-                        "name": "",
-                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
-                    },
-                    {
-                        "name": "",
-                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test1.txt"
                     }
                 ]
             },
@@ -140,27 +102,31 @@
             "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
             "containerId": "",
             "name": "Download File",
-            "url": "https://localhost:3000/download",
+            "url": "http://localhost:8080/download?username=user1&file=test.txt",
             "method": "GET",
             "sortNum": 50000,
             "created": "2023-06-28T05:39:56.317Z",
-            "modified": "2023-06-28T05:39:56.317Z",
+            "modified": "2023-06-29T13:03:10.966Z",
             "headers": [],
-            "params": [],
-            "tests": []
-        },
-        {
-            "_id": "72c6691e-4d43-4b4b-a4b1-654803f4ebc1",
-            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
-            "containerId": "",
-            "name": "Download Folder",
-            "url": "https://localhost:3000/download",
-            "method": "GET",
-            "sortNum": 60000,
-            "created": "2023-06-28T05:40:00.541Z",
-            "modified": "2023-06-28T05:40:00.541Z",
-            "headers": [],
-            "params": [],
+            "params": [
+                {
+                    "name": "username",
+                    "value": "user1",
+                    "isPath": false
+                },
+                {
+                    "name": "file",
+                    "value": "test.txt",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "user1",
+                    "password": "pass"
+                }
+            },
             "tests": []
         },
         {
@@ -168,36 +134,40 @@
             "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
             "containerId": "",
             "name": "Upload Files",
-            "url": "https://localhost:3000/upload",
+            "url": "http://localhost:8080/upload?username=user1",
             "method": "POST",
             "sortNum": 70000,
             "created": "2023-06-28T05:40:04.945Z",
-            "modified": "2023-06-28T05:40:04.945Z",
+            "modified": "2023-06-29T13:01:29.033Z",
             "headers": [],
-            "params": [],
+            "params": [
+                {
+                    "name": "username",
+                    "value": "user1",
+                    "isPath": false
+                }
+            ],
             "body": {
                 "type": "formdata",
                 "raw": "",
-                "form": [
-                    {
-                        "name": "username",
-                        "value": "user1"
-                    },
-                    {
-                        "name": "password",
-                        "value": "pass"
-                    }
-                ],
+                "form": [],
                 "files": [
                     {
-                        "name": "",
+                        "name": "file",
                         "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
                     },
                     {
-                        "name": "",
+                        "name": "file",
                         "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test1.txt"
                     }
                 ]
+            },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "user1",
+                    "password": "pass"
+                }
             },
             "tests": []
         },
@@ -206,45 +176,49 @@
             "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
             "containerId": "",
             "name": "Upload File",
-            "url": "https://localhost:3000/upload",
+            "url": "http://localhost:8080/upload?username=user1",
             "method": "POST",
             "sortNum": 80000,
             "created": "2023-06-28T05:40:10.066Z",
-            "modified": "2023-06-28T05:40:10.066Z",
+            "modified": "2023-06-29T13:01:47.930Z",
             "headers": [],
-            "params": [],
+            "params": [
+                {
+                    "name": "username",
+                    "value": "user1",
+                    "isPath": false
+                }
+            ],
             "body": {
                 "type": "formdata",
                 "raw": "",
-                "form": [
-                    {
-                        "name": "username",
-                        "value": "user1"
-                    },
-                    {
-                        "name": "password",
-                        "value": "pass"
-                    }
-                ],
+                "form": [],
                 "files": [
                     {
-                        "name": "",
+                        "name": "file",
                         "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
                     }
                 ]
             },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "user1",
+                    "password": "pass"
+                }
+            },
             "tests": []
         },
         {
-            "_id": "43aa4589-739d-4a51-9f8f-420ff462cec7",
+            "_id": "3476b894-36ec-4672-bb88-8b9baa6c9221",
             "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
             "containerId": "",
-            "name": "Upload Folder",
-            "url": "https://localhost:3000/upload",
-            "method": "POST",
-            "sortNum": 90000,
-            "created": "2023-06-28T05:40:13.711Z",
-            "modified": "2023-06-28T05:40:13.711Z",
+            "name": "Login User",
+            "url": "https://localhost:8080/login",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2023-06-29T13:09:18.672Z",
+            "modified": "2023-06-29T13:09:18.672Z",
             "headers": [],
             "params": [],
             "body": {
@@ -259,17 +233,14 @@
                         "name": "password",
                         "value": "pass"
                     }
-                ],
-                "files": [
-                    {
-                        "name": "",
-                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
-                    },
-                    {
-                        "name": "",
-                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test1.txt"
-                    }
                 ]
+            },
+            "auth": {
+                "type": "basic",
+                "basic": {
+                    "username": "user1",
+                    "password": "pass"
+                }
             },
             "tests": []
         }
