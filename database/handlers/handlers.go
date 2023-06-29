@@ -3,13 +3,12 @@ package handlers
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"main/database"
 	"main/utils"
 	"net/http"
 	"os"
-	"path/filepath"
-	"strings"
 )
 
 type User struct {
@@ -126,89 +125,60 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-const MAX_UPLOAD_SIZE = 1024 * 1024 // 1MB
+// Upload Files
 func Upload(w http.ResponseWriter, r *http.Request) {
-
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	user := &User{
-		Username: r.FormValue("username"),
-	}
+	username := r.URL.Query().Get("username")
 
-	file_path := fmt.Sprintf("./store/%s/uploads/", user.Username)
-
-	// 32 MB is the default used by FormFile()
-	if err := r.ParseMultipartForm(32 << 20); err != nil {
-		http.Error(w, "ParseMultipartForm error.", http.StatusInternalServerError)
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	// Get a reference to the fileHeaders.
-	// They are accessible only after ParseMultipartForm is called
-	files := r.MultipartForm.File["file"]
+	form_data := r.MultipartForm
+	files := form_data.File["file"]
 
-	for _, fileHeader := range files {
-		// Restrict the size of each uploaded file to 1MB.
-		// To prevent the aggregate size from exceeding
-		// a specified value, use the http.MaxBytesReader() method
-		// before calling ParseMultipartForm()
-		if fileHeader.Size > MAX_UPLOAD_SIZE {
-			http.Error(w, fmt.Sprintf("The uploaded file is too big: %s. Please use an file less than 1MB in size", fileHeader.Filename), http.StatusBadRequest)
-			return
-		}
+	for index := range files {
 
-		file, err := fileHeader.Open()
+		file, err := files[index].Open()
 		if err != nil {
-			http.Error(w, "FileHeader Open error.", http.StatusInternalServerError)
-
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		defer file.Close()
 
-		buff := make([]byte, 512)
-		_, err = file.Read(buff)
+		path := fmt.Sprintf("./store/%s/uploads/", username)
+		err = os.MkdirAll(path, os.ModePerm)
 		if err != nil {
-			http.Error(w, "File Read error.", http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		_, err = file.Seek(0, io.SeekStart)
+		// path := fmt.Sprintf("./store/%s/uploads/%s", user.Username, files[index].Filename)
+		// dst, err := os.Create(path)
+		dst, err := os.Create(path + files[index].Filename)
 		if err != nil {
-			http.Error(w, "File Seek error.", http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer dst.Close()
+
+		if _, err := io.Copy(dst, file); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		err = os.MkdirAll(file_path, os.ModePerm)
-		if err != nil {
-			http.Error(w, "Os MkdirAll error", http.StatusInternalServerError)
-			return
-		}
-
-		array := strings.Split(fileHeader.Filename, ".")
-		file_name := fmt.Sprintf(file_path+"%s%s", array[0], filepath.Ext(fileHeader.Filename))
-		f, err := os.Create(file_name)
-		if err != nil {
-			http.Error(w, "Os Create Error", http.StatusBadRequest)
-			return
-		}
-		defer f.Close()
-
-		_, err = io.Copy(f, file)
-		if err != nil {
-			http.Error(w, "Io Copy Error", http.StatusBadRequest)
-			// http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
 	}
 
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Upload successful")
+	fmt.Fprintf(w, "Successfully Uploaded File\n")
 }
 
-// Fix
 // Download
 func Download(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
@@ -216,16 +186,18 @@ func Download(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := &User{
-		Username: r.FormValue("username"),
-		Password: r.FormValue("password"),
+	username := r.URL.Query().Get("username")
+	file := r.URL.Query().Get("file")
+
+	path := fmt.Sprintf("./store/%s/uploads/%s", username, file)
+
+	fileBytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
-	file := fmt.Sprintf("./store/%s/", user.Username)
-
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Download successful")
-
-	http.ServeFile(w, r, file)
-	// http.ServeContent(rw, r, "myfile", time.Now(), bytes.NewReader(data))
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write(fileBytes)
 }
