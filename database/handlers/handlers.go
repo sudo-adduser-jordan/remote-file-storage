@@ -156,7 +156,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 		// a specified value, use the http.MaxBytesReader() method
 		// before calling ParseMultipartForm()
 		if fileHeader.Size > MAX_UPLOAD_SIZE {
-			http.Error(w, fmt.Sprintf("The uploaded image is too big: %s. Please use an image less than 1MB in size", fileHeader.Filename), http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("The uploaded file is too big: %s. Please use an file less than 1MB in size", fileHeader.Filename), http.StatusBadRequest)
 			return
 		}
 
