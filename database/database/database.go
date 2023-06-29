@@ -36,7 +36,7 @@ func ConnectToDatabase() {
 		os.Exit(1)
 	}
 	fmt.Print("	-----> ")
-	fmt.Println(styles.GreenText("Connected to database."))
+	fmt.Println(styles.GreenText("Connect to database."))
 }
 
 func MigrateDatabase() {

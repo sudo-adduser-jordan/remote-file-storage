@@ -2,7 +2,7 @@ package database
 
 // pgx v5
 
-var CREATE_USER_TABLE = `
+const CREATE_USER_TABLE = `
 	CREATE TABLE IF NOT EXISTS Users (
 		UserID SERIAL,
 		Username TEXT NOT NULL UNIQUE,
@@ -11,16 +11,16 @@ var CREATE_USER_TABLE = `
 	);
 `
 
-var DROP_TABLE = `
+const DROP_TABLE = `
 	DROP TABLE Users;
 `
 
-var INSERT_USER = `
+const INSERT_USER = `
 	INSERT INTO Users (Username, Password)
 	VALUES ($1, $2); 
 `
 
-var SELECT_USER = `
+const SELECT_USER = `
 	SELECT * 
 	FROM users
 	WHERE username = $1
@@ -28,13 +28,13 @@ var SELECT_USER = `
 	LIMIT 1
 `
 
-var UPDATE_USER = `
+const UPDATE_USER = `
 	UPDATE Users
 	SET Username = $1, Password = $2
 	WHERE Username = $3; 
 `
 
-var DELETE_USER = `
+const DELETE_USER = `
 	DELETE FROM Users 
 	WHERE Username = $1;
 `

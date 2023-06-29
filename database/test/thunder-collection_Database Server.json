@@ -1,0 +1,277 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Database Server",
+    "dateExported": "2023-06-28T05:40:51.916Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "65676880-cab8-4068-badb-7fe41bc20966",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Update User",
+            "url": "http://localhost:8080/update",
+            "method": "PUT",
+            "sortNum": 10000,
+            "created": "2023-06-27T03:35:46.127Z",
+            "modified": "2023-06-27T03:35:46.127Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user1"
+                    },
+                    {
+                        "name": "password",
+                        "value": "pass"
+                    },
+                    {
+                        "name": "new_username",
+                        "value": "user2"
+                    },
+                    {
+                        "name": "new_password",
+                        "value": "admin"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "0960d6be-9d71-40b7-b896-ff4713f82ad6",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Delete User",
+            "url": "http://localhost:8080/delete",
+            "method": "DELETE",
+            "sortNum": 20000,
+            "created": "2023-06-27T03:35:51.659Z",
+            "modified": "2023-06-27T03:35:51.659Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user1"
+                    },
+                    {
+                        "name": "password",
+                        "value": "pass"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "9393681d-d305-415b-ae8a-b539d5b38fee",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Create User",
+            "url": "http://localhost:8080/register",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-06-27T03:35:58.706Z",
+            "modified": "2023-06-27T03:35:58.706Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user2"
+                    },
+                    {
+                        "name": "password",
+                        "value": "pass"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "003e51f2-efea-4cad-8cf5-6f426fda9b6a",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Upload Files",
+            "url": "https://localhost:3000/upload",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-06-28T05:38:06.146Z",
+            "modified": "2023-06-28T05:38:06.146Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user1"
+                    },
+                    {
+                        "name": "password",
+                        "value": "pass"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "",
+                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
+                    },
+                    {
+                        "name": "",
+                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test1.txt"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "97694b57-d778-4446-abd2-5b7a14600274",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Download File",
+            "url": "https://localhost:3000/download",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-06-28T05:39:56.317Z",
+            "modified": "2023-06-28T05:39:56.317Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "72c6691e-4d43-4b4b-a4b1-654803f4ebc1",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Download Folder",
+            "url": "https://localhost:3000/download",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-06-28T05:40:00.541Z",
+            "modified": "2023-06-28T05:40:00.541Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5c708354-50d3-48f0-ab3b-32783ee5be2c",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Upload Files",
+            "url": "https://localhost:3000/upload",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-06-28T05:40:04.945Z",
+            "modified": "2023-06-28T05:40:04.945Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user1"
+                    },
+                    {
+                        "name": "password",
+                        "value": "pass"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "",
+                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
+                    },
+                    {
+                        "name": "",
+                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test1.txt"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "4378adb8-5756-459d-a478-4d8542040d97",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Upload File",
+            "url": "https://localhost:3000/upload",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2023-06-28T05:40:10.066Z",
+            "modified": "2023-06-28T05:40:10.066Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user1"
+                    },
+                    {
+                        "name": "password",
+                        "value": "pass"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "",
+                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "43aa4589-739d-4a51-9f8f-420ff462cec7",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Upload Folder",
+            "url": "https://localhost:3000/upload",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-06-28T05:40:13.711Z",
+            "modified": "2023-06-28T05:40:13.711Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "user1"
+                    },
+                    {
+                        "name": "password",
+                        "value": "pass"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "",
+                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test.txt"
+                    },
+                    {
+                        "name": "",
+                        "value": "c:\\Users\\user1\\Desktop\\GitHub\\Remote-File-Storage\\database\\test\\test1.txt"
+                    }
+                ]
+            },
+            "tests": []
+        }
+    ]
+}

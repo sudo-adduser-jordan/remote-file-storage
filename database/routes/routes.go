@@ -18,7 +18,7 @@ func SetupRoutes() {
 	mux.HandleFunc("/update", middleware.Logger((middleware.BasicAuth(handlers.Update))))
 	mux.HandleFunc("/delete", middleware.Logger((middleware.BasicAuth(handlers.Delete))))
 	mux.HandleFunc("/upload", middleware.Logger((middleware.BasicAuth(handlers.Upload))))
-	mux.HandleFunc("/download", middleware.Logger((middleware.BasicAuth(handlers.Update))))
+	mux.HandleFunc("/download", middleware.Logger((middleware.BasicAuth(handlers.Download))))
 
 	server := &http.Server{
 		Addr:    ":8080",

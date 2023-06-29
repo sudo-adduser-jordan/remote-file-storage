@@ -24,8 +24,8 @@ func (record *statusRecorder) WriteHeader(code int) {
 func Logger(f http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-		// Initialize the status to 500 in case WriteHeader is not called
-		record := statusRecorder{w, 500}
+		// Initialize the status to 199 in case WriteHeader is not called
+		record := statusRecorder{w, 199}
 		defer func() {
 			log.Printf(
 				"| %s |	%s|	%s %s %s",
