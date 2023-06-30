@@ -14,11 +14,11 @@ func SetupRoutes() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/register", middleware.Logger(handlers.Register))
 
-	mux.HandleFunc("/login", middleware.Logger((middleware.BasicAuth(handlers.Login))))
-	mux.HandleFunc("/update", middleware.Logger((middleware.BasicAuth(handlers.Update))))
-	mux.HandleFunc("/delete", middleware.Logger((middleware.BasicAuth(handlers.Delete))))
-	mux.HandleFunc("/upload", middleware.Logger((middleware.BasicAuth(handlers.Upload))))
-	mux.HandleFunc("/download", middleware.Logger((middleware.BasicAuth(handlers.Download))))
+	mux.HandleFunc("/login", middleware.Logger(handlers.Login))
+	mux.HandleFunc("/update", middleware.Logger(handlers.Update))
+	mux.HandleFunc("/delete", middleware.Logger(handlers.Delete))
+	mux.HandleFunc("/upload", middleware.Logger(handlers.Upload))
+	mux.HandleFunc("/download", middleware.Logger(handlers.Download))
 
 	server := &http.Server{
 		Addr:    ":8080",
@@ -28,7 +28,10 @@ func SetupRoutes() {
 		// WriteTimeout: 30 * time.Second,
 	}
 
-	fmt.Print("\n(∩｀-´)⊃━ ☆ﾟ . * ･ ｡ﾟ => http server started on ")
+	fmt.Print(styles.BlueText("\n(∩｀-´)⊃"))
+	fmt.Print(styles.YellowText("━ "))
+	fmt.Print(styles.PurpleText("☆ﾟ . * ･ ｡ﾟ"))
+	fmt.Print(" => http server started on ")
 	fmt.Println(styles.GreenText(server.Addr))
 	fmt.Println()
 

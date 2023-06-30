@@ -16,7 +16,7 @@ type User struct {
 	Password string
 }
 
-// Create Account - will assign cookie
+// Create Account
 func Register(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -35,16 +35,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if database.ReadUser(user.Username) == user.Username {
 		w.WriteHeader(http.StatusConflict)
 		fmt.Fprint(w, "User exists: "+user.Username)
-
 	} else {
 		if database.CreateUser(user.Username, hashed_password) {
+			w, r = utils.CreateCookie(w, r, user.Username)
 			w.WriteHeader(http.StatusOK)
 			fmt.Fprint(w, "User created: "+user.Username)
 		}
 	}
 }
 
-// Read Account - will assign cookie
+// Read Account
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(
@@ -61,6 +61,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	hash := database.ReadPassword(user.Username)
 
 	if utils.CheckPasswordHash(user.Password, hash) {
+		w, r = utils.CreateCookie(w, r, user.Username)
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "User logged in: "+user.Username)
 	} else {
@@ -70,6 +71,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 // Update Account
 func Update(w http.ResponseWriter, r *http.Request) {
+	// w, r = utils.ReadCookie(w, r)
+	// w, r = utils.UpdateCookie(w, r)
+
 	if r.Method != "PUT" {
 		http.Error(
 			w,
@@ -103,6 +107,9 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 // Delete Account
 func Delete(w http.ResponseWriter, r *http.Request) {
+	// w, r = utils.ReadCookie(w, r)
+	// w, r = utils.DeleteCookie(w, r)
+
 	if r.Method != "PUT" {
 		http.Error(
 			w,
@@ -127,6 +134,9 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 
 // Upload Files
 func Upload(w http.ResponseWriter, r *http.Request) {
+	// w, r = utils.ReadCookie(w, r)
+	// w, r = utils.UpdateCookie(w, r)
+
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -181,6 +191,8 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 
 // Download
 func Download(w http.ResponseWriter, r *http.Request) {
+	// w, r = utils.ReadCookie(w, r)
+	// w, r = utils.UpdateCookie(w, r)
 	if r.Method != "GET" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
