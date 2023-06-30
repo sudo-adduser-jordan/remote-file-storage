@@ -26,4 +26,25 @@ export async function login(e: any) {
 
 export async function logout(e: any) {}
 
-export async function createAccount(e: any) {}
+export async function createAccount(e: any) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  const headersList = {
+    Accept: '*/*',
+  };
+
+  const response = await fetch(login_path, {
+    method: 'POST',
+    headers: headersList,
+    body: formData,
+  });
+  console.log(response);
+  console.log(response.ok);
+
+  if (response.ok) {
+    // router.push('/home');
+  }
+}
