@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from '../page.module.css';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <main className={styles.main}>
       <div className={styles.title}>Remote File Storage</div>
