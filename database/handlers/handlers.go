@@ -46,7 +46,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 // Read Account - will assign cookie
 func Login(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
+	if r.Method != "POST" {
 		http.Error(
 			w,
 			"Method not allowed",
