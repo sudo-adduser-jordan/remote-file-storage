@@ -2,9 +2,7 @@
 import { useState } from 'react';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
-
-const LOGIN_PATH = 'http://localhost:8080/login';
-const CREATE_PATH = 'http://localhost:8080/register';
+import { createAccount, login } from '@/lib/requests';
 
 export default function LoginPage() {
   const [error, setError] = useState(false);
@@ -12,68 +10,25 @@ export default function LoginPage() {
   const [check, setCheck] = useState(false);
   const router = useRouter();
 
-  async function login(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-    console.log(formData);
-
-    const headersList = {
-      // Accept: '*/*',
-      Authorization: 'Basic dXNlcjE6cGFzcw==',
-    };
-
-    const response = await fetch(LOGIN_PATH, {
-      method: 'POST',
-      headers: headersList,
-      body: formData,
-    });
-
-    if (response.ok) {
-      router.push('/home');
-    } else {
-      setError(true);
-    }
-  }
-
-  async function createAccount(e: any) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const headersList = {
-      Accept: '*/*',
-    };
-
-    const response = await fetch(CREATE_PATH, {
-      method: 'POST',
-      headers: headersList,
-      body: formData,
-    });
-    console.log(response);
-    console.log(response.ok);
-
-    if (response.ok) {
-      router.push('/home');
-    }
-  }
-
-  function handleSubmit(e: any) {
-    e.preventDefault();
-    if (submit == 'login') {
-      login(e);
-    }
     if (submit == 'create') {
-      createAccount(e);
+      const result = await createAccount(e, router);
+      if (result) {
+        setError(true);
+      }
+    }
+    if (submit == 'login') {
+      const result = await login(e, router);
+      if (result) {
+        setError(true);
+      }
     }
   }
 
   return (
     <main className={styles.main}>
       <div className={styles.title}>Remote File Storage</div>
-
       <div className={styles.container}>
         <form
           className={styles.form}
@@ -85,16 +40,18 @@ export default function LoginPage() {
           <input
             className={styles.input}
             name='username'
+            autoComplete='off'
             placeholder='Enter username'
           />
           Password: {error && <>❌</>}
           <input
             className={styles.input}
             name='password'
+            autoComplete='off'
             placeholder='Enter password'
           />
           <div className={styles.checkbox}>
-            <input type='checkbox' /> Remember me
+            <input name='checkbox' type='checkbox' /> Remember me
           </div>
         </form>
         <div>

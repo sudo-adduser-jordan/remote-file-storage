@@ -1,9 +1,9 @@
 .main {
-  background-color: black;
+  color: white;
 }
 
 .title {
-  color: tomato;
+  color: lime;
   display: flex;
   justify-content: space-around;
   font-size: xx-large;
@@ -22,36 +22,9 @@
   transition: all 0.5s;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: mediumslateblue;
-}
-
-.input {
-  background-color: black;
-  color: white;
-  margin: 1rem;
-  height: 2rem;
-  width: 20rem;
-  transition: all 0.3s;
-  border-radius: 0.25rem;
-  padding: 0.75rem;
-  border: 1px solid;
-  outline: none;
-}
-
-.input:focus {
-  border: 1px solid tomato;
-}
-.input::placeholder {
-  color: white;
-}
-
-.checkbox {
-  font-size: small;
-  color: white;
+.logout:hover {
+  color: tomato;
+  transition: all 0.5s;
 }
 
 .button {

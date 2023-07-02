@@ -11,25 +11,25 @@ import (
 	"github.com/sudo-adduser-jordan/Toolchain/Go/styles"
 )
 
-type statusRecorder struct {
+type ResponseData struct {
 	http.ResponseWriter
 	status int
 }
 
-func (record *statusRecorder) WriteHeader(code int) {
-	record.status = code
-	record.ResponseWriter.WriteHeader(code)
+func (response *ResponseData) WriteHeader(code int) {
+	response.status = code
+	response.ResponseWriter.WriteHeader(code)
 }
 
 func Logger(f http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		// Initialize the status to 199 in case WriteHeader is not called
-		record := statusRecorder{w, 199}
+		response := ResponseData{w, 199}
 		defer func() {
 			log.Printf(
 				"| %s |	%s|	%s %s %s",
-				statusColor(record.status),
+				statusColor(response.status),
 				time.Since(start),
 				styles.GreenText(r.Host),
 				methodColor(r.Method),
@@ -37,7 +37,7 @@ func Logger(f http.HandlerFunc) http.HandlerFunc {
 			)
 
 		}()
-		f.ServeHTTP(&record, r)
+		f.ServeHTTP(&response, r)
 	})
 }
 

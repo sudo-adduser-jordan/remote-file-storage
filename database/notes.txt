@@ -4,8 +4,7 @@ docker run `
     -e POSTGRES_USER=dbuser  `
     -e POSTGRES_PASSWORD=dbpassword `
     -e POSTGRES_DB=dbname `
-    postgres `
-    
+    postgres 
 
 go build cmd/main.go; `
 start "C:/Users/user1/AppData/Local/Programs/pgAdmin 4/v7/runtime/pgadmin4.exe"; `
@@ -14,3 +13,5 @@ start "C:/Users/user1/AppData/Local/Programs/pgAdmin 4/v7/runtime/pgadmin4.exe";
     
 go build cmd/main.go; `
 ./main.exe 
+
+Set-Cookie: session_token=4c4ced41-8a3a-4bd8-a715-bcfe2681c2b4

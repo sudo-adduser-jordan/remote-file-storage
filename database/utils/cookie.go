@@ -23,7 +23,7 @@ func (session Session) isExpired() bool {
 func ReadCookie(w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
 
 	// We can obtain the session token from the requests cookies, which come with every request
-	c, err := r.Cookie("session_token")
+	cookie, err := r.Cookie("session_token")
 	if err != nil {
 		if err == http.ErrNoCookie {
 			// If the cookie is not set, return an unauthorized status
@@ -36,7 +36,7 @@ func ReadCookie(w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *h
 		return w, r
 
 	}
-	sessionToken := c.Value
+	sessionToken := cookie.Value
 
 	// We then get the name of the user from our session map, where we set the session token
 	userSession, exists := sessions[sessionToken]
@@ -60,7 +60,7 @@ func ReadCookie(w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *h
 func CreateCookie(w http.ResponseWriter, r *http.Request, username string) (http.ResponseWriter, *http.Request) {
 	// Create a new random session token
 	sessionToken := uuid.NewString()
-	expiresAt := time.Now().Add(120 * time.Second)
+	expiresAt := time.Now().Add(time.Second * 60) // 60 seconds
 
 	// Set the token in the session map, along with the user whom it represents
 	sessions[sessionToken] = Session{
@@ -69,10 +69,10 @@ func CreateCookie(w http.ResponseWriter, r *http.Request, username string) (http
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:    "session",
+		Name:    "session_token",
 		Value:   sessionToken,
-		Expires: expiresAt,
-		// HttpOnly: true,
+		// Expires: expiresAt,
+		HttpOnly: true,
 		// Secure:   true,
 		// SameSite: http.SameSiteLaxMode,
 	})
@@ -80,7 +80,6 @@ func CreateCookie(w http.ResponseWriter, r *http.Request, username string) (http
 }
 
 func UpdateCookie(w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
-	// (BEGIN) The code from this point is the same as the first part of the `Welcome` route
 	c, err := r.Cookie("session_token")
 	if err != nil {
 		if err == http.ErrNoCookie {
@@ -102,7 +101,6 @@ func UpdateCookie(w http.ResponseWriter, r *http.Request) (http.ResponseWriter, 
 		w.WriteHeader(http.StatusUnauthorized)
 		return w, r
 	}
-	// (END) The code until this point is the same as the first part of the `Welcome` route
 
 	// If the previous session is valid, create a new session token for the current user
 	newSessionToken := uuid.NewString()

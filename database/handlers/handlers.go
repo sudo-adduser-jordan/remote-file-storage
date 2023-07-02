@@ -18,11 +18,13 @@ type User struct {
 
 // Create Account
 func Register(w http.ResponseWriter, r *http.Request) {
+	// Check method
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
+	// Get Values
 	user := &User{
 		Username: r.FormValue("username"),
 		Password: r.FormValue("password"),
@@ -32,11 +34,18 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Hash password error")
 	}
 
+	// Check if values exist
 	if database.ReadUser(user.Username) == user.Username {
+		// w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.WriteHeader(http.StatusConflict)
 		fmt.Fprint(w, "User exists: "+user.Username)
 	} else {
 		if database.CreateUser(user.Username, hashed_password) {
+			// w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+			w.Header().Set("Access-Control-Allow-Credentials", "true")
 			w, r = utils.CreateCookie(w, r, user.Username)
 			w.WriteHeader(http.StatusOK)
 			fmt.Fprint(w, "User created: "+user.Username)
@@ -46,6 +55,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 // Read Account
 func Login(w http.ResponseWriter, r *http.Request) {
+	// Check method
 	if r.Method != "POST" {
 		http.Error(
 			w,
@@ -54,17 +64,26 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		)
 		return
 	}
+
+	// Get values
 	user := &User{
 		Username: r.FormValue("username"),
 		Password: r.FormValue("password"),
 	}
 	hash := database.ReadPassword(user.Username)
 
+	// Check password
 	if utils.CheckPasswordHash(user.Password, hash) {
+		// w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w, r = utils.CreateCookie(w, r, user.Username)
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "User logged in: "+user.Username)
 	} else {
+		// w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.WriteHeader(http.StatusBadRequest)
 	}
 }
@@ -74,6 +93,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	// w, r = utils.ReadCookie(w, r)
 	// w, r = utils.UpdateCookie(w, r)
 
+	// Check method
 	if r.Method != "PUT" {
 		http.Error(
 			w,
@@ -82,6 +102,8 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		)
 		return
 	}
+
+	// Get values
 	user := &User{
 		Username: r.FormValue("username"),
 		Password: r.FormValue("password"),
@@ -95,6 +117,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Hash password error")
 	}
 
+	// Check Password
 	hash := database.ReadPassword(user.Username)
 	if utils.CheckPasswordHash(user.Password, hash) {
 		database.UpdateUser(user.Username, new_user.Username, hashed_password)
@@ -137,11 +160,13 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	// w, r = utils.ReadCookie(w, r)
 	// w, r = utils.UpdateCookie(w, r)
 
+	// Check method
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
+	// Get values
 	username := r.URL.Query().Get("username")
 
 	err := r.ParseMultipartForm(32 << 20)
@@ -153,6 +178,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	form_data := r.MultipartForm
 	files := form_data.File["file"]
 
+	// Write files
 	for index := range files {
 
 		file, err := files[index].Open()
@@ -169,8 +195,6 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// path := fmt.Sprintf("./store/%s/uploads/%s", user.Username, files[index].Filename)
-		// dst, err := os.Create(path)
 		dst, err := os.Create(path + files[index].Filename)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -189,20 +213,23 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Successfully Uploaded File\n")
 }
 
-// Download
+// Download File
 func Download(w http.ResponseWriter, r *http.Request) {
 	// w, r = utils.ReadCookie(w, r)
 	// w, r = utils.UpdateCookie(w, r)
+
+	// Check method
 	if r.Method != "GET" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
+	// Get values
 	username := r.URL.Query().Get("username")
 	file := r.URL.Query().Get("file")
-
 	path := fmt.Sprintf("./store/%s/uploads/%s", username, file)
 
+	// Send file
 	fileBytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
