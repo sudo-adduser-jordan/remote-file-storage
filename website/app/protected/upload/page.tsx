@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import styles from './/upload.module.css';
 import { logout } from '@/lib/requests';
