@@ -1,5 +1,5 @@
 .container {
-  border: solid 1px lightseagreen;
+  border: solid 1px white;
   height: 15rem;
   width: 27.5rem;
   /* todo style scroll bar */
@@ -7,8 +7,13 @@
 }
 
 .table {
-  /* background-color: brown; */
   height: 100%;
   width: 100%;
   text-align: center;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  color: tomato;
+  border-bottom: solid 1px white;
 }
