@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import styles from './/upload.module.css';
+import { logout } from '@/lib/requests';
 
-export default function HomePage() {
+export default function UploadPage() {
   return (
     <main className={styles.main}>
       <div className={styles.title}>Remote File Storage</div>
@@ -21,7 +22,9 @@ export default function HomePage() {
         </Link>
         <div className={styles.links}>
           <div className={styles.logout}>
-            <Link href={'/'}>Logout</Link>
+            <Link href={'/'} onClick={logout}>
+              Logout
+            </Link>
           </div>
           <div className={styles.download}>
             <Link href={'/protected/download'}>Download</Link>

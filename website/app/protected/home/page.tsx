@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './/home.module.css';
+import { logout } from '@/lib/requests';
 
 export default function HomePage() {
   return (
@@ -15,7 +16,7 @@ export default function HomePage() {
             <button className={styles.button}> 🡇 Download</button>
           </Link>
         </div>
-        <Link href={'/'} className={styles.logout}>
+        <Link href={'/'} className={styles.logout} onClick={logout}>
           Logout
         </Link>
       </div>

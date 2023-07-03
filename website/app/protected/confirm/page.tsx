@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import styles from './/confirm.module.css';
+import { logout } from '@/lib/requests';
 
-export default function HomePage() {
+export default function ConfirmPage() {
   return (
     <main className={styles.main}>
       <div className={styles.title}>Remote File Storage</div>
@@ -18,7 +19,9 @@ export default function HomePage() {
           </Link>
         </div>
         <div className={styles.logout}>
-          <Link href={'/'}>Logout</Link>
+          <Link href={'/'} onClick={logout}>
+            Logout
+          </Link>
         </div>
       </div>
     </main>

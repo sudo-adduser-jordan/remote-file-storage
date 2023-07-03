@@ -1,0 +1,14 @@
+.container {
+  border: solid 1px lightseagreen;
+  height: 15rem;
+  width: 27.5rem;
+  /* todo style scroll bar */
+  overflow-y: scroll;
+}
+
+.table {
+  /* background-color: brown; */
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
