@@ -231,6 +231,7 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	path := fmt.Sprintf("./store/%s/uploads/%s", username, file)
 
 	// Send file
+	// ioutil.ReadDir()
 	fileBytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
