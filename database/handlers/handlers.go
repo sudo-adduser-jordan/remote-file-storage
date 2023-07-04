@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -88,7 +89,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Update Account
+// Update Account TODO
 func Update(w http.ResponseWriter, r *http.Request) {
 	// w, r = utils.ReadCookie(w, r)
 	// w, r = utils.UpdateCookie(w, r)
@@ -128,7 +129,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Delete Account
+// Delete Account TODO
 func Delete(w http.ResponseWriter, r *http.Request) {
 	// w, r = utils.ReadCookie(w, r)
 	// w, r = utils.DeleteCookie(w, r)
@@ -155,7 +156,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Upload Files
+// Upload Files TODO
 func Upload(w http.ResponseWriter, r *http.Request) {
 	// w, r = utils.ReadCookie(w, r)
 	// w, r = utils.UpdateCookie(w, r)
@@ -213,7 +214,7 @@ func Upload(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Successfully Uploaded File\n")
 }
 
-// Download File
+// Download File TODO
 func Download(w http.ResponseWriter, r *http.Request) {
 	// w, r = utils.ReadCookie(w, r)
 	// w, r = utils.UpdateCookie(w, r)
@@ -239,4 +240,25 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/octet-stream")
 	w.Write(fileBytes)
+}
+
+// Get Download File list TODO
+func FileList(w http.ResponseWriter, r *http.Request) {
+	// w, r = utils.ReadCookie(w, r)
+	// w, r = utils.UpdateCookie(w, r)
+
+	// Check method
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Get values
+	username := r.URL.Query().Get("username")
+	p := utils.ReadStore(username)
+
+	// Send json list
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(p)
 }

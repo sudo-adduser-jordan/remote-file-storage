@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Database Server",
-    "dateExported": "2023-06-29T13:09:43.219Z",
+    "dateExported": "2023-07-04T14:09:24.799Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -78,7 +78,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2023-06-27T03:35:58.706Z",
-            "modified": "2023-06-28T09:53:15.935Z",
+            "modified": "2023-07-01T20:05:45.373Z",
             "headers": [],
             "params": [],
             "body": {
@@ -210,15 +210,15 @@
             "tests": []
         },
         {
-            "_id": "3476b894-36ec-4672-bb88-8b9baa6c9221",
+            "_id": "c1f5090d-9f7b-4e9d-99bc-54d688bf1308",
             "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
             "containerId": "",
             "name": "Login User",
-            "url": "https://localhost:8080/login",
-            "method": "GET",
-            "sortNum": 100000,
-            "created": "2023-06-29T13:09:18.672Z",
-            "modified": "2023-06-29T13:09:18.672Z",
+            "url": "http://localhost:8080/login",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-06-30T07:41:41.986Z",
+            "modified": "2023-07-01T12:57:44.201Z",
             "headers": [],
             "params": [],
             "body": {
@@ -235,13 +235,26 @@
                     }
                 ]
             },
-            "auth": {
-                "type": "basic",
-                "basic": {
-                    "username": "user1",
-                    "password": "pass"
+            "tests": []
+        },
+        {
+            "_id": "d5616f14-4864-47bd-97e2-8e12d3661f5a",
+            "colId": "d50055b0-cea3-4b60-abd6-01464d6eb946",
+            "containerId": "",
+            "name": "Get File List",
+            "url": "http://localhost:8080/filelist?username=user1",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2023-07-04T14:08:18.377Z",
+            "modified": "2023-07-04T14:08:18.377Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "username",
+                    "value": "user1",
+                    "isPath": false
                 }
-            },
+            ],
             "tests": []
         }
     ]

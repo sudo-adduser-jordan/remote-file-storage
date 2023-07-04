@@ -2,7 +2,7 @@ import { cookies } from 'next/dist/client/components/headers';
 
 const CREATE_PATH = 'http://localhost:8080/register';
 const LOGIN_PATH = 'http://localhost:8080/login';
-const LOG_OUT = 'http://localhost:8080/logout';
+// const LOG_OUT = 'http://localhost:8080/logout';
 
 export async function createAccount(e: any, router: any): Promise<Boolean> {
   e.preventDefault();
@@ -49,6 +49,7 @@ export async function login(e: any, router: any): Promise<Boolean> {
 }
 
 export function logout() {
+  // send logout to sever?
   cookies().set({
     name: 'session_token',
     value: '',
@@ -82,24 +83,15 @@ export async function upload(e: any, router: any): Promise<Boolean> {
 }
 
 // Fix
-export async function download(e: any, router: any): Promise<Boolean> {
-  e.preventDefault();
-  const form = e.target;
-  const formData = new FormData(form);
+export async function download(router: any) {
   const headersList = {
     Accept: '*/*',
   };
   const response = await fetch(LOGIN_PATH, {
     method: 'GET',
     headers: headersList,
-    body: formData,
+    // body: formData,
     credentials: 'include',
   });
-  if (response.ok) {
-    router.push('/protected/confirm');
-    return false;
-  } else {
-    // Return error
-    return true;
-  }
+  return response;
 }

@@ -18,6 +18,7 @@ func SetupRoutes() {
 	mux.HandleFunc("/update", middleware.Logger(handlers.Update))
 	mux.HandleFunc("/delete", middleware.Logger(handlers.Delete))
 	mux.HandleFunc("/upload", middleware.Logger(handlers.Upload))
+	mux.HandleFunc("/filelist", middleware.Logger(handlers.FileList))
 	mux.HandleFunc("/download", middleware.Logger(handlers.Download))
 
 	server := &http.Server{
