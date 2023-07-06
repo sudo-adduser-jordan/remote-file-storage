@@ -15,3 +15,5 @@ go build cmd/main.go; `
 ./main.exe 
 
 Set-Cookie: session_token=4c4ced41-8a3a-4bd8-a715-bcfe2681c2b4
+
+docker start postgres-container
